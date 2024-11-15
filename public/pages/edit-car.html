@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Car</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
 <div class="container mx-auto px-4 py-8">
   <div class="max-w-2xl mx-auto">
     <h1 class="text-3xl font-bold mb-8">Edit Car</h1>
@@ -46,7 +55,7 @@
   </div>
 </div>
 
-<script> <script>
+<script>
 const carId = new URLSearchParams(window.location.search).get('id');
 const form = document.getElementById('editCarForm');
 const deleteBtn = document.getElementById('deleteBtn');
@@ -131,3 +140,5 @@ deleteBtn.addEventListener('click', async () => {
 // Load car data when page loads
 loadCarData();
 </script>
+</body>
+</html>

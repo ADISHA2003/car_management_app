@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
 <div class="form-container">
   <h2 class="text-2xl font-bold mb-6">Login</h2>
   <form id="loginForm" class="space-y-4">
@@ -14,7 +23,7 @@
   </form>
   <p class="mt-4 text-center">
     Don't have an account? 
-    <a href="/register" data-link class="text-primary-600 hover:underline">Register</a>
+    <a href="/pages/register.html" class="text-primary-600 hover:underline">Register</a>
   </p>
 </div>
 
@@ -28,28 +37,26 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   
   try {
     errorDiv.classList.add('hidden');
-
-    // Send the data as JSON to /api/auth/login
     const response = await fetch('/api/auth/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
-
+    
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Login failed');
+    
+    if (response.ok) {
+      // Redirect to dashboard or home page
+      window.location.href = '/';
+    } else {
+      errorDiv.textContent = data.error || 'Login failed';
+      errorDiv.classList.remove('hidden');
     }
-
-    // Redirect to home or dashboard after successful login (you can modify the path)
-    window.router.navigate('/dashboard'); // Replace with your desired page
-
   } catch (error) {
     errorDiv.textContent = error.message;
     errorDiv.classList.remove('hidden');
   }
 });
 </script>
+</body>
+</html>

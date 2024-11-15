@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
 <div class="form-container">
   <h2 class="text-2xl font-bold mb-6">Register</h2>
   <form id="registerForm" class="space-y-4">
@@ -18,7 +27,7 @@
   </form>
   <p class="mt-4 text-center">
     Already have an account? 
-    <a href="/login" data-link class="text-primary-600 hover:underline">Login</a>
+    <a href="/pages/login.html" class="text-primary-600 hover:underline">Login</a>
   </p>
 </div>
 
@@ -33,27 +42,26 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   
   try {
     errorDiv.classList.add('hidden');
-
-    // Send the data as JSON to /api/auth/register
     const response = await fetch('/api/auth/register', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password })
     });
-
+    
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Registration failed');
+    
+    if (response.ok) {
+      // Redirect to login page
+      window.location.href = '/pages/login.html';
+    } else {
+      errorDiv.textContent = data.error || 'An error occurred';
+      errorDiv.classList.remove('hidden');
     }
-
-    // Redirect to login page if registration is successful
-    window.router.navigate('/login');
   } catch (error) {
     errorDiv.textContent = error.message;
     errorDiv.classList.remove('hidden');
   }
 });
 </script>
+</body>
+</html>
