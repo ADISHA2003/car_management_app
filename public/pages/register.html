@@ -33,10 +33,27 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   
   try {
     errorDiv.classList.add('hidden');
-    await window.auth.register(username, email, password);
+
+    // Send the data as JSON to /api/auth/register
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Registration failed');
+    }
+
+    // Redirect to login page if registration is successful
     window.router.navigate('/login');
   } catch (error) {
     errorDiv.textContent = error.message;
     errorDiv.classList.remove('hidden');
   }
-});</script>
+});
+</script>

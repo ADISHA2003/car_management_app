@@ -27,7 +27,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${PORT}`
+        url: `http://localhost:${PORT}/api/auth`
       }
     ]
   },
@@ -53,5 +53,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port http://localhost:${PORT}/api/auth`);
 });
