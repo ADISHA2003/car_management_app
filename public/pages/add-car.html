@@ -1,0 +1,44 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Add New Car</h1>
+    
+    <form id="addCarForm" class="space-y-6">
+      <div class="form-group">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" id="title" name="title" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-input" rows="4" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="car_type" class="form-label">Car Type</label>
+        <input type="text" id="car_type" name="car_type" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="company" class="form-label">Company</label>
+        <input type="text" id="company" name="company" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="dealer" class="form-label">Dealer</label>
+        <input type="text" id="dealer" name="dealer" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="tags" class="form-label">Tags (comma-separated)</label>
+        <input type="text" id="tags" name="tags" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="images" class="form-label">Images (up to 10)</label>
+        <input type="file" id="images" name="images" class="form-input" multiple accept="image/*" required>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-full">Add Car</button>
+    </form>
+  </div>
+</div>

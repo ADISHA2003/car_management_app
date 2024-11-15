@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo" href="/cars.html">
+                <i class="fas fa-car"></i>
+                <span>CarManager</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/cars" class="nav-link">My Cars</a>
+                <a href="/add-car" class="nav-link">Add Car</a>
+                <button id="logoutBtn" class="btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="app"></main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Car Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/auth.js" type="module"></script>
+    <script src="/js/router.js" type="module"></script>
+    <script src="/js/app.js" type="module"></script>
+</body>
+</html>

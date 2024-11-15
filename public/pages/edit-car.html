@@ -1,0 +1,133 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Edit Car</h1>
+    
+    <form id="editCarForm" class="space-y-6">
+      <div class="form-group">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" id="title" name="title" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-input" rows="4" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="car_type" class="form-label">Car Type</label>
+        <input type="text" id="car_type" name="car_type" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="company" class="form-label">Company</label>
+        <input type="text" id="company" name="company" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="dealer" class="form-label">Dealer</label>
+        <input type="text" id="dealer" name="dealer" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="tags" class="form-label">Tags (comma-separated)</label>
+        <input type="text" id="tags" name="tags" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="images" class="form-label">New Images (optional)</label>
+        <input type="file" id="images" name="images" class="form-input" multiple accept="image/*">
+      </div>
+      
+      <div class="flex space-x-4">
+        <button type="submit" class="btn btn-primary flex-1">Update Car</button>
+        <button type="button" id="deleteBtn" class="btn btn-error flex-1">Delete Car</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script> <script>
+const carId = new URLSearchParams(window.location.search).get('id');
+const form = document.getElementById('editCarForm');
+const deleteBtn = document.getElementById('deleteBtn');
+
+async function loadCarData() {
+  const token = localStorage.getItem('token');
+  
+  try {
+    const response = await fetch(`/api/cars/${carId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const car = await response.json();
+    
+    // Populate form fields
+    form.title.value = car.title;
+    form.description.value = car.description;
+    form.car_type.value = car.car_type;
+    form.company.value = car.company;
+    form.dealer.value = car.dealer;
+    form.tags.value = car.tags.join(', ');
+  } catch (error) {
+    console.error('Error loading car:', error);
+    alert('Error loading car data');
+  }
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(form);
+  const token = localStorage.getItem('token');
+  
+  try {
+    const response = await fetch(`/api/cars/${carId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update car');
+    }
+    
+    window.router.navigate('/cars');
+  } catch (error) {
+    console.error('Error updating car:', error);
+    alert('Error updating car');
+  }
+});
+
+deleteBtn.addEventListener('click', async () => {
+  if (!confirm('Are you sure you want to delete this car?')) {
+    return;
+  }
+  
+  const token = localStorage.getItem('token');
+  
+  try {
+    const response = await fetch(`/api/cars/${carId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to delete car');
+    }
+    
+    window.router.navigate('/cars');
+  } catch (error) {
+    console.error('Error deleting car:', error);
+    alert('Error deleting car');
+  }
+});
+
+// Load car data when page loads
+loadCarData();
+</script>
