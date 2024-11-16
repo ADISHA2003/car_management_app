@@ -1,101 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add New Car</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <div class="container mx-auto px-4 py-8">
-    <div class="max-w-2xl mx-auto">
-      <h1 class="text-3xl font-bold mb-8">Add New Car</h1>
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Add New Car</h1>
+    
+    <form id="addCarForm" class="space-y-6">
+      <div class="form-group">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" id="title" name="title" class="form-input" required>
+      </div>
       
-      <form id="addCarForm" class="space-y-6" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="title" class="form-label">Title</label>
-          <input type="text" id="title" name="title" class="form-input" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="description" class="form-label">Description</label>
-          <textarea id="description" name="description" class="form-input" rows="4" required></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="car_type" class="form-label">Car Type</label>
-          <input type="text" id="car_type" name="car_type" class="form-input" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="company" class="form-label">Company</label>
-          <input type="text" id="company" name="company" class="form-input" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="dealer" class="form-label">Dealer</label>
-          <input type="text" id="dealer" name="dealer" class="form-input" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="tags" class="form-label">Tags (comma-separated)</label>
-          <input type="text" id="tags" name="tags" class="form-input" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="images" class="form-label">Images (up to 10)</label>
-          <input type="file" id="images" name="images" class="form-input" multiple accept="image/*" required>
-        </div>
-        
-        <button type="submit" class="btn btn-primary w-full">Add Car</button>
-      </form>
-      <div id="addCarError" class="text-red-500 text-sm hidden mt-4"></div>
-      <div id="addCarSuccess" class="text-green-500 text-sm hidden mt-4">Car added successfully!</div>
-    </div>
-  </div> 
-
-  <script>
-    document.getElementById('addCarForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-input" rows="4" required></textarea>
+      </div>
       
-      const formData = new FormData();
-      formData.append('title', document.getElementById('title').value);
-      formData.append('description', document.getElementById('description').value);
-      formData.append('car_type', document.getElementById('car_type').value);
-      formData.append('company', document.getElementById('company').value);
-      formData.append('dealer', document.getElementById('dealer').value);
-      formData.append('tags', document.getElementById('tags').value);
+      <div class="form-group">
+        <label for="car_type" class="form-label">Car Type</label>
+        <input type="text" id="car_type" name="car_type" class="form-input" required>
+      </div>
       
-      const images = document.getElementById('images').files;
-      for (let i = 0; i < images.length; i++) {
-        formData.append('images', images[i]);
-      }
+      <div class="form-group">
+        <label for="company" class="form-label">Company</label>
+        <input type="text" id="company" name="company" class="form-input" required>
+      </div>
       
-      const errorDiv = document.getElementById('addCarError');
-      const successDiv = document.getElementById('addCarSuccess');
+      <div class="form-group">
+        <label for="dealer" class="form-label">Dealer</label>
+        <input type="text" id="dealer" name="dealer" class="form-input" required>
+      </div>
       
-      try {
-        errorDiv.classList.add('hidden');
-        successDiv.classList.add('hidden');
-        
-        const response = await fetch('/api/cars', {
-          method: 'POST',
-          body: formData
-        });
-        
-        if (response.ok) {
-          successDiv.classList.remove('hidden');
-          document.getElementById('addCarForm').reset();
-        } else {
-          const data = await response.json();
-          errorDiv.textContent = data.error || 'An error occurred while adding the car.';
-          errorDiv.classList.remove('hidden');
-        }
-      } catch (error) {
-        errorDiv.textContent = error.message;
-        errorDiv.classList.remove('hidden');
-      }
-    });
-  </script>
-</body>
-</html>
+      <div class="form-group">
+        <label for="tags" class="form-label">Tags (comma-separated)</label>
+        <input type="text" id="tags" name="tags" class="form-input" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="images" class="form-label">Images (up to 10)</label>
+        <input type="file" id="images" name="images" class="form-input" multiple accept="image/*" required>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-full">Add Car</button>
+    </form>
+  </div>
+</div>

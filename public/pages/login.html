@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
 <div class="form-container">
   <h2 class="text-2xl font-bold mb-6">Login</h2>
-  <form id="loginForm" class="space-y-4">
+  <form id="loginForm" class="space-y-4" method="POST">
     <div class="form-group">
       <label for="email" class="form-label">Email</label>
       <input type="email" id="email" name="email" class="form-input" required>
@@ -23,40 +14,49 @@
   </form>
   <p class="mt-4 text-center">
     Don't have an account? 
-    <a href="/pages/register.html" class="text-primary-600 hover:underline">Register</a>
+    <a href="/register" data-link class="text-primary-600 hover:underline">Register</a>
   </p>
 </div>
 
 <script>
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const errorDiv = document.getElementById('loginError');
-  
-  try {
-    errorDiv.classList.add('hidden');
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
+const form = document.getElementById('loginForm');
+const errorDiv = document.getElementById('loginError');
+
+if (form) {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
     
-    const data = await response.json();
-    
-    if (response.ok) {
-      // Redirect to dashboard or home page
-      window.location.href = '/';
-    } else {
-      errorDiv.textContent = data.error || 'Login failed';
+    const formData = {
+      email: form.email.value,
+      password: form.password.value
+    };
+
+    try {
+      errorDiv.classList.add('hidden');
+      
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      window.auth.currentUser = data.user;
+      window.auth.updateAuthUI();
+      window.router.navigate('/cars');
+    } catch (error) {
+      errorDiv.textContent = error.message;
       errorDiv.classList.remove('hidden');
     }
-  } catch (error) {
-    errorDiv.textContent = error.message;
-    errorDiv.classList.remove('hidden');
-  }
-});
+  });
+}
 </script>
-</body>
-</html>

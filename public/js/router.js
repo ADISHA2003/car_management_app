@@ -9,12 +9,29 @@ class Router {
     this.handleRoute();
   }
   
-  handleRoute() {
+  async handleRoute() {
     const path = window.location.pathname;
-    const route = this.routes[path] || this.routes['*'];
+    const isAuthenticated = window.auth.checkAuth();
     
+    // Protected routes
+    const protectedRoutes = ['/cars', '/add-car', '/edit-car'];
+    // Guest-only routes
+    const guestRoutes = ['/login', '/register'];
+    
+    if (protectedRoutes.includes(path) && !isAuthenticated) {
+      this.navigate('/login');
+      return;
+    }
+    
+    if (guestRoutes.includes(path) && isAuthenticated) {
+      this.navigate('/cars');
+      return;
+    }
+    
+    const route = this.routes[path] || this.routes['*'];
     this.currentPath = path;
-    route();
+    await route();
+    window.auth.updateAuthUI();
   }
   
   navigate(path) {
